@@ -1,5 +1,5 @@
-import { BaseUser } from "../model/User";
-import { sign } from "jsonwebtoken";
+const { BaseUser } = require("../model/User");
+const jwt = require("jsonwebtoken");
 
 const handleRefresh = async (req, res, next) => {
   const cookies = req.cookies;
@@ -15,7 +15,7 @@ const handleRefresh = async (req, res, next) => {
     return res.sendStatus(403).json({ message: "User not found" });
   }
   console.log("\x1b[32m%s\x1b[0m", "User found");
-  const newRefreshToken = sign(
+  const newRefreshToken = jwt.sign(
     { id: user._id },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "1d" }
@@ -28,7 +28,7 @@ const handleRefresh = async (req, res, next) => {
     "\x1b[32m%s\x1b[0m",
     "Successfully updated user's refresh tokens"
   );
-  const accessToken = sign(
+  const accessToken = jwt.sign(
     {
       UserInfo: {
         id: user._id,
@@ -47,4 +47,4 @@ const handleRefresh = async (req, res, next) => {
   res.status(200).json({ accessToken });
 };
 
-export default handleRefresh;
+module.exports = { handleRefresh };

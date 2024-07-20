@@ -1,4 +1,4 @@
-import { BaseUser } from "../model/User";
+const { BaseUser } = require("../model/User");
 
 const handleLogout = async (req, res, next) => {
   console.log("\x1b[33m%s\x1b[0m", "Received logout request");
@@ -25,4 +25,4 @@ const handleLogout = async (req, res, next) => {
   res.sendStatus(200);
 };
 
-export default handleLogout;
+module.exports = { handleLogout };

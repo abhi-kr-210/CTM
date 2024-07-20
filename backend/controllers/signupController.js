@@ -1,6 +1,6 @@
-import { BaseUser } from "../model/User";
-import { hash } from "bcrypt";
-import { sign } from "jsonwebtoken";
+const { BaseUser } = require("../model/User");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const handleSignup = (role) => async (req, res, next) => {
   const { fullname, email, password } = req.body;
@@ -18,14 +18,14 @@ const handleSignup = (role) => async (req, res, next) => {
     console.log("\x1b[31m%s\x1b[0m", "Duplicate email found in database");
     return res.status(409).json({ message: "Email already in use." });
   }
-  const hashedPassword = await hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = new BaseUser({
     fullname,
     email,
     password: hashedPassword,
     role,
   });
-  const accessToken = sign(
+  const accessToken = jwt.sign(
     {
       UserInfo: {
         id: newUser._id,
@@ -35,7 +35,7 @@ const handleSignup = (role) => async (req, res, next) => {
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "10m" }
   );
-  const refreshToken = sign(
+  const refreshToken = jwt.sign(
     { id: newUser._id },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "1d" }
@@ -52,4 +52,4 @@ const handleSignup = (role) => async (req, res, next) => {
   res.status(201).json({ accessToken });
 };
 
-export default handleSignup;
+module.exports = { handleSignup };

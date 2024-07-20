@@ -1,6 +1,6 @@
-import { BaseUser } from "../model/User";
-import { compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
+const { BaseUser } = require("../model/User");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const handleLogin = async (req, res, next) => {
   const { email, password } = req.body;
@@ -16,10 +16,10 @@ const handleLogin = async (req, res, next) => {
     return res.status(401).json({ message: "User not found" });
   }
   console.log("\x1b[32m%s\x1b[0m", "User found");
-  const match = await compare(password, user.password);
+  const match = await bcrypt.compare(password, user.password);
   if (match) {
     console.log("\x1b[32m%s\x1b[0m", "Password match");
-    const accessToken = sign(
+    const accessToken = jwt.sign(
       {
         UserInfo: {
           id: user._id,
@@ -29,7 +29,7 @@ const handleLogin = async (req, res, next) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "10m" }
     );
-    const refreshToken = sign(
+    const refreshToken = jwt.sign(
       { id: user._id },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "1d" }
@@ -49,4 +49,4 @@ const handleLogin = async (req, res, next) => {
   }
 };
 
-export default handleLogin;
+module.exports = { handleLogin };

@@ -1,4 +1,4 @@
-import { verify } from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
 const verifyJWT = (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
@@ -9,7 +9,7 @@ const verifyJWT = (req, res, next) => {
     return res.sendStatus(401);
   }
   const token = authHeader.split(" ")[1];
-  verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
       console.log("\x1b[31mJWT Error:\x1b[0m", err.message);
       return res.sendStatus(403);
@@ -17,8 +17,9 @@ const verifyJWT = (req, res, next) => {
     req.id = decoded.UserInfo.id;
     req.role = decoded.UserInfo.role;
     console.log("\x1b[32mJWT Verified\x1b[0m");
+    console.log("\x1b[36m%s\x1b[0m", "Role:", req.role);
     next();
   });
 };
 
-export default verifyJWT;
+module.exports = { verifyJWT };

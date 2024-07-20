@@ -1,8 +1,7 @@
-import { Router } from "express";
-import handleRefresh from "../controllers/refreshController";
+const express = require("express");
+const router = express.Router();
+const refreshController = require("../controllers/refreshController");
 
-const router = Router();
+router.get("/", refreshController.handleRefresh);
 
-router.get("/", handleRefresh);
-
-export default router;
+module.exports = router;

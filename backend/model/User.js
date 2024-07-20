@@ -1,10 +1,11 @@
-import { Schema, model } from "mongoose";
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const baseUserSchema = new Schema(
   {
     fullname: {
       type: String,
-      require: true,
+      required: true,
     },
     email: {
       type: String,
@@ -15,7 +16,10 @@ const baseUserSchema = new Schema(
       type: String,
       required: true,
     },
-    refreshToken: [String],
+    refreshToken: {
+      type: [String],
+      default: [],
+    },
     role: {
       type: String,
       required: true,
@@ -30,42 +34,46 @@ const adminSchema = new Schema({});
 const userSchema = new Schema({
   address: {
     type: String,
+    default: "Not provided",
   },
   dateOfBirth: {
     type: Date,
-  },
-  profilePic: {
-    type: String,
+    default: null,
   },
 });
 
 const snapperSchema = new Schema({
   address: {
     type: String,
+    default: "Not provided",
   },
   dateOfBirth: {
     type: Date,
+    default: null,
   },
   minQualifications: {
     type: String,
+    default: "Not specified",
   },
   photographyStyle: {
     type: [String],
+    default: [],
   },
   experience: {
     type: Number,
+    default: 0,
   },
   camerasAvailable: {
     type: [String],
-  },
-  profilePic: {
-    type: String,
+    default: [],
   },
   samplePhotos: {
     type: [String],
+    default: [],
   },
   languages: {
     type: [String],
+    default: [],
   },
   approved: {
     type: Boolean,
@@ -77,9 +85,9 @@ const snapperSchema = new Schema({
   },
 });
 
-const BaseUser = model("BaseUser", baseUserSchema);
+const BaseUser = mongoose.model("BaseUser", baseUserSchema);
 const Admin = BaseUser.discriminator("Admin", adminSchema);
 const User = BaseUser.discriminator("User", userSchema);
 const Snapper = BaseUser.discriminator("Snapper", snapperSchema);
 
-export default { BaseUser, Admin, User, Snapper };
+module.exports = { BaseUser, Admin, User, Snapper };
