@@ -29,6 +29,7 @@ app.use("/logout", require("./routes/logout"));
 
 app.use("/api/snapper", require("./routes/api/snapper"));
 app.use("/api/profile", require("./routes/api/profile"));
+app.use("/api/rate", require("./routes/api/rate"));
 
 app.all("*", (req, res) => {
   res.status(404).json({ error: "404 Not Found" });

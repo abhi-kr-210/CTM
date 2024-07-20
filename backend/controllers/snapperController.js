@@ -1,4 +1,5 @@
 const { Snapper } = require("../model/User");
+const profilePicController = require("./profilePicController");
 
 const getAllSnappers = async (req, res, next) => {
   const snappers = await Snapper.find({}, "fullname email").exec();
@@ -16,7 +17,12 @@ const getSnapper = async (req, res, next) => {
   if (!snapper) {
     return res.status(404).json({ message: `Snapper not found` });
   }
-  res.status(200).json(snapper);
+  const profilePic = await profilePicController.getProfilePic(req.id);
+  const response = {
+    ...snapper.toObject(),
+    profilePic: profilePic,
+  };
+  res.status(200).json(response);
 };
 
 const addSnapper = async (req, res, next) => {
@@ -73,12 +79,15 @@ const updateSnapper = async (req, res, next) => {
   if (!snapper) {
     return res.status(404).json({ message: "Snapper not found" });
   }
-  await Snapper.findByIdAndUpdate(
+  const updatedSnapper = await Snapper.findByIdAndUpdate(
     id,
     { $set: updateData },
     { new: true }
-  ).exec();
-  res.status(200);
+  );
+  if (!updatedSnapper) {
+    return res.status(500).json({ message: "Failed to update snapper" });
+  }
+  res.status(200).json(updatedSnapper);
 };
 
 const deleteSnapper = async (req, res, next) => {

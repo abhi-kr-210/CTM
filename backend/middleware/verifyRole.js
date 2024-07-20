@@ -8,7 +8,7 @@ const verifyRole = (allowedRole) => {
       console.log("\x1b[31m%s\x1b[0m", "Role is unauthorized");
       return res.sendStatus(401);
     }
-    console.log("\x1b[32m%s\x1b[0m", " Role is authorized");
+    console.log("\x1b[32m%s\x1b[0m", "Role is authorized");
     next();
   };
 };

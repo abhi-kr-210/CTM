@@ -83,6 +83,10 @@ const snapperSchema = new Schema({
     type: Number,
     default: 0,
   },
+  ratings: {
+    type: [Number],
+    default: [0, 0, 0, 0, 0],
+  },
 });
 
 const BaseUser = mongoose.model("BaseUser", baseUserSchema);

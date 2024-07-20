@@ -39,6 +39,11 @@ const setProfile = async (req, res, next) => {
   if (user.toObject().hasOwnProperty(field)) {
     if (field === "password") {
       const { oldPassword, newPassword } = req.body;
+      if (!oldPassword || !newPassword) {
+        return res
+          .status(400)
+          .json({ message: "Old Password and New Password required" });
+      }
       const match = await bcrypt.compare(oldPassword, user.password);
       if (!match) {
         return res.status(400).json({ message: "Incorrect old password" });
@@ -54,6 +59,7 @@ const setProfile = async (req, res, next) => {
       "role",
       "approved",
       "reliability",
+      "ratings",
     ];
     if (!restrictedFields.includes(field)) {
       user[field] = req.body[field];
