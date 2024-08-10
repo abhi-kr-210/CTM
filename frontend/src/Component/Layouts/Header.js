@@ -37,7 +37,7 @@ function Header() {
           <Nav.Link as={Link} to="/" >HOME</Nav.Link>
           <Nav.Link as={Link} to="/about" onClick={scrollTop}>ABOUT</Nav.Link>
           <Nav.Link as={Link} to="/service">SERVICE</Nav.Link>
-          <Nav.Link as={Link} to="/contact">CONTACT</Nav.Link>
+          <Nav.Link as={Link} to="/profilemain">CONTACT</Nav.Link>
           {auth.role==='Guest'?
           <Nav.Link as={Link} to="/login">LOGIN</Nav.Link>
           : (

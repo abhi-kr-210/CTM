@@ -5,6 +5,9 @@ import Login from './Pages/Login';
 import RegisterasSnapper from './Pages/RegisterasSnapper';
 import RegisterasUser from './Pages/RegisterasUser';
 import { AuthProvider } from './Context/AuthContext';
+import ProfileUser from './Pages/ProfileUser';
+import ProfileMain from './Pages/ProfileMain';
+import BookingPage from './Pages/BookingPage';
 
 function App() {
   return (
@@ -16,7 +19,10 @@ function App() {
     <Route path="/login"  element={<Login/> }  />
     <Route path="/register_photographer" element={<RegisterasSnapper />} />
     <Route path="/register_user" element={<RegisterasUser/>} />
-    
+    <Route path="/profile_user" element={<ProfileUser/>} />
+    <Route path="/profilemain" element={<ProfileMain/>} />
+    <Route path="/booknow" element={<BookingPage/>} />
+
     </Routes>
     </BrowserRouter>
 </AuthProvider>
