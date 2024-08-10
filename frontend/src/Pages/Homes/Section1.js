@@ -1,12 +1,9 @@
 import React from 'react'
-import { Col, Container, Row ,Carousel} from 'react-bootstrap'
+import { Carousel} from 'react-bootstrap'
 
 import img1 from "../../assets/man.png"
 import img2 from "../../assets/textimghome.png"
 import img3 from "../../assets/homeglarry.png"
-import img5 from "../../assets/homebackgroundback11.jpg"
-import img6 from "../../assets/homebackgroundback12.jpg"
-import img7 from "../../assets/glarreyimg.png"
 import { Link } from 'react-router-dom'
 function Section1() {
   return (
@@ -28,7 +25,7 @@ function Section1() {
       </div>
       
       <div className='mt-5 d-flex justify-content-center'  >
-      <Link className=' order_now' style={{textDecoration:"none"}}>Book Now</Link>
+      <Link to="/booknow" className=' order_now' style={{textDecoration:"none"}}>Book Now</Link>
       </div>
       
       </div>
